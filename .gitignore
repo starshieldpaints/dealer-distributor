@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+*.log
+coverage/
+*.tfstate
+*.tfstate.*
+infrastructure/terraform/.terraform/
+infrastructure/terraform/.terraform.lock.hcl
+backend/.env
+frontend/.env
+mobile/.env
+backend/uploads/*
+!backend/uploads/.gitkeep
+.DS_Store

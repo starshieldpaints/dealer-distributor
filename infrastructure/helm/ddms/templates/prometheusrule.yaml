@@ -1,0 +1,32 @@
+{{- if .Values.monitoring.alerts.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "ddms.fullname" . }}-alerts
+  labels:
+    {{- include "ddms.labels" . | nindent 4 }}
+    prometheus: kube-prometheus-stack
+spec:
+  groups:
+    - name: ddms-api
+      rules:
+        - alert: DDMSHigh5xxRate
+          expr: |
+            sum(rate(nginx_ingress_controller_requests{ingress="{{ include "ddms.fullname" . }}",status=~"5.."}[5m]))
+            /
+            sum(rate(nginx_ingress_controller_requests{ingress="{{ include "ddms.fullname" . }}"}[5m])) > 0.05
+          for: 5m
+          labels:
+            severity: {{ .Values.monitoring.alerts.severity }}
+          annotations:
+            summary: "High 5xx rate detected for DDMS ingress"
+            description: "More than 5% of DDMS ingress responses are failing with 5xx over the last 5 minutes."
+        - alert: DDMSMissingPods
+          expr: kube_deployment_status_replicas_available{deployment="{{ include "ddms.fullname" . }}-backend"} < {{ .Values.backend.replicaCount }}
+          for: 10m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Backend replicas below desired"
+            description: "Available backend replicas are below the desired threshold for more than 10 minutes."
+{{- end }}

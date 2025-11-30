@@ -1,0 +1,162 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.steps {
+  display: flex;
+  list-style: none;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.step {
+  flex: 1;
+  padding: 0.5rem;
+  text-align: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.step span {
+  display: block;
+}
+
+.active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: rgba(118, 101, 255, 0.08);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+input,
+select {
+  border-radius: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(5, 12, 30, 0.9);
+  color: var(--color-text);
+  padding: 0.6rem 0.75rem;
+  font-size: 1rem;
+}
+
+.hint {
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.link {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.error {
+  color: var(--color-danger);
+  font-size: 0.8rem;
+}
+
+.stepActions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.faceStep {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pinSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pinControls {
+  position: relative;
+}
+
+.pinControls input {
+  width: 100%;
+}
+
+.pinSuggestions {
+  position: absolute;
+  background: rgba(2, 7, 20, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.75rem;
+  padding: 0.5rem;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.pinSuggestions button {
+  background: none;
+  border: none;
+  color: var(--color-text);
+  text-align: left;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.pinSuggestions button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.pinChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pinChips span {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pinChips button {
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.ghostButton {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: var(--color-text);
+  padding: 0.5rem 1.25rem;
+  cursor: pointer;
+}

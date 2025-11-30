@@ -1,0 +1,93 @@
+.sidebar {
+  background: #ffffff;
+  border-right: 1px solid var(--color-border);
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e11d48, #fb7185);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #fff;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.brand p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+.roleSwitcher {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.roleSwitcher select {
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  padding: 0.45rem 0.75rem;
+  background: var(--color-panel);
+  color: var(--color-text);
+}
+
+.roleSwitcher small {
+  color: var(--color-muted);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.75rem;
+  color: var(--color-text);
+  transition: all 0.2s ease;
+}
+
+.navItem svg {
+  font-size: 1.2rem;
+}
+
+.navItem:hover {
+  background: var(--color-panel-light);
+  color: var(--color-text);
+}
+
+.active {
+  background: rgba(225, 29, 72, 0.1);
+  color: var(--color-accent);
+}
+
+@media (max-width: 980px) {
+  .sidebar {
+    display: none;
+  }
+}

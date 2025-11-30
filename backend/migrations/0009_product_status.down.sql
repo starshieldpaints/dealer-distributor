@@ -1,0 +1,2 @@
+ALTER TABLE products DROP COLUMN IF EXISTS status;
+DROP TABLE IF EXISTS price_history;

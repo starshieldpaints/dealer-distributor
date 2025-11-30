@@ -1,0 +1,88 @@
+nameOverride: ""
+fullnameOverride: ""
+
+imagePullSecrets: []
+
+ingress:
+  enabled: true
+  className: nginx
+  clusterIssuer: letsencrypt
+  frontendHost: app.example.com
+  apiHost: api.example.com
+  tls:
+    enabled: true
+
+backend:
+  replicaCount: 2
+  image:
+    repository: 123456789012.dkr.ecr.us-east-1.amazonaws.com/ddms-backend
+    tag: latest
+    pullPolicy: IfNotPresent
+  serviceAccount:
+    create: true
+    name: ""
+  podAnnotations: {}
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
+  env:
+    nodeEnv: production
+    port: 4000
+    allowedOrigins:
+      - https://app.example.com
+  secrets:
+    postgresUrl: ""
+    redisUrl: ""
+    jwtSecret: ""
+  service:
+    type: ClusterIP
+    port: 4000
+  probes:
+    livenessPath: /health
+    readinessPath: /health
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 6
+    targetCPUUtilizationPercentage: 70
+    targetMemoryUtilizationPercentage: 70
+  extraEnv: []
+  extraVolumes: []
+  extraVolumeMounts: []
+
+frontend:
+  replicaCount: 2
+  image:
+    repository: 123456789012.dkr.ecr.us-east-1.amazonaws.com/ddms-frontend
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 8080
+  resources:
+    requests:
+      cpu: 150m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 60
+
+networkPolicy:
+  enabled: true
+
+monitoring:
+  serviceMonitor:
+    enabled: true
+    interval: 30s
+  alerts:
+    enabled: true
+    severity: page

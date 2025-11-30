@@ -1,0 +1,6 @@
+BEGIN;
+DROP TABLE IF EXISTS mfa_challenges CASCADE;
+DROP TABLE IF EXISTS mfa_secrets CASCADE;
+DROP TABLE IF EXISTS password_reset_tokens CASCADE;
+DROP TABLE IF EXISTS auth_refresh_tokens CASCADE;
+COMMIT;

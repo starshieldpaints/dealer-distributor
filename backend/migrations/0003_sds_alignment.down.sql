@@ -1,0 +1,12 @@
+BEGIN;
+DROP TABLE IF EXISTS integration_webhook_deliveries CASCADE;
+DROP TABLE IF EXISTS integration_webhooks CASCADE;
+ALTER TABLE integration_events DROP COLUMN IF EXISTS attempts;
+ALTER TABLE integrations DROP CONSTRAINT IF EXISTS integrations_connector_key;
+ALTER TABLE integrations DROP COLUMN IF EXISTS credentials_ref;
+ALTER TABLE users DROP COLUMN IF EXISTS auth_provider;
+ALTER TABLE users DROP COLUMN IF EXISTS geo_role;
+ALTER TABLE distributors DROP COLUMN IF EXISTS territory_id;
+ALTER TABLE distributors ADD COLUMN IF NOT EXISTS territory_id TEXT;
+DROP TABLE IF EXISTS territories CASCADE;
+COMMIT;
