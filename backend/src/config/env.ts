@@ -1,11 +1,18 @@
 import dotenv from 'dotenv';
 import { z } from 'zod';
+import path  from 'path';
 
 dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
-  PORT: z.string().optional(),
+  PORT: z.coerce.number().default(3000),
+  DB_HOST: z.string().default('localhost'),
+  DB_PORT: z.coerce.number().default(5432),
+  DB_USER: z.string().default('postgres'),
+  DB_PASS: z.string().default('postgres'),
+  DB_NAME: z.string().default('dealer_distributor'),
   POSTGRES_URL: z.string().min(1, 'POSTGRES_URL is required'),
   POSTGRES_TEST_URL: z.string().optional(),
   REDIS_URL: z.string().optional(),
@@ -19,6 +26,14 @@ const envSchema = z.object({
   RATE_LIMIT_WINDOW_MS: z.string().optional(),
   RATE_LIMIT_MAX: z.string().optional(),
   MFA_ISSUER: z.string().optional(),
+  JWT_SECRET: z.string().min(10, 'JWT_SECRET must be at least 10 chars'),
+  APP_SECRET: z.string().optional(),
+  CORS_ORIGIN: z.string().default('*'),
+  REDIS_HOST: z.string().optional(),
+  REDIS_PORT: z.coerce.number().optional(),
+  STORAGE_DRIVER: z.enum(['local', 's3']).default('local'),
+  ADMIN_EMAIL: z.string().email().optional(),
+  ADMIN_PASSWORD: z.string().optional(),
   SENDGRID_API_KEY: z.string().optional(),
   SENDGRID_FROM_EMAIL: z.string().optional(),
   TWILIO_ACCOUNT_SID: z.string().optional(),
@@ -60,6 +75,14 @@ interface AppEnv {
   dataGovResourceId?: string;
   dataGovBaseUrl?: string;
 }
+const _env = envSchema.safeParse(process.env);
+
+if (!_env.success) {
+  console.error('❌ Invalid environment variables:', _env.error.format());
+  process.exit(1);
+}
+
+export const env = _env.data;
 
 let cachedEnv: AppEnv | null = null;
 
