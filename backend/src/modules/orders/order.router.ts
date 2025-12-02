@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { validateRequest } from '../../middleware/validateRequest';
 import { asyncHandler } from '../../utils/asyncHandler';
 import { authorize } from '../../middleware/authorize';
-import {
+import { 
   listOrders,
   createNewOrder,
   transitionOrderStatus,
@@ -10,7 +10,7 @@ import {
   listCreditHolds,
   releaseOrderCreditHold,
   listOrderReturns
-} from './order.service';
+} from './order.service'; 
 import {
   createOrderSchema,
   listOrdersSchema,
@@ -122,7 +122,25 @@ ordersRouter.get(
       distributorId,
       limit: Number(limit),
       offset: Number(offset)
-    });
+    }); 
     res.json({ data });
   })
 );
+
+
+
+// import { Router } from 'express';
+
+// export const orderRouter = Router();
+
+// orderRouter.get('/', (req, res) => {
+//   res.json({ message: 'Orders endpoint active', data: [] });
+// });
+
+// orderRouter.post('/', (req, res) => {
+//   res.json({ message: 'Order created', id: 'temp-id' });
+// });
+
+// orderRouter.get('/:id', (req, res) => {
+//   res.json({ id: req.params.id, status: 'pending' });
+// });

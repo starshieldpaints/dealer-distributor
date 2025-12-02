@@ -54,29 +54,51 @@ import { secondarySalesRouter } from '../modules/secondarySales/secondarySales.r
 import { visitRouter } from '../modules/visits/visit.router';
 import { territoryRouter } from '../modules/territories/territory.router';
 import { analyticsRouter } from '../modules/analytics/analytics.router';
-import { auditRouter } from '../modules/audit/audit.router'; // Ensure this exists or remove if not created yet
+import { auditRouter } from '../modules/audit/audit.router';
 import { notificationLogRouter } from '../modules/notificationLog/notificationLog.router';
 
 export const router = Router();
 
-// Health Check
 router.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Module Routes
-router.use('/auth', authRouter);
-router.use('/users', usersRouter);
-router.use('/catalog', catalogRouter);
-router.use('/orders', orderRouter);
-router.use('/inventory', inventoryRouter);
-router.use('/credit', creditRouter);
-router.use('/schemes', schemeRouter);
-router.use('/secondary-sales', secondarySalesRouter);
-router.use('/visits', visitRouter);
-router.use('/territories', territoryRouter);
-router.use('/analytics', analyticsRouter);
-router.use('/notifications', notificationLogRouter);
+// --- SAFE MOUNT FUNCTION ---
+// This prevents the server from crashing if a router file is missing or broken.
+const safeMount = (path: string, routeModule: any, name: string) => {
+  if (!routeModule) {
+    console.warn(`⚠️ SKIPPING ${name}: Module is undefined (Circular dependency or missing export).`);
+    return;
+  }
+  
+  // Ensure it is a valid middleware function (Router)
+  if (typeof routeModule !== 'function') {
+     console.warn(`⚠️ SKIPPING ${name}: Export is not a valid Router function. Type: ${typeof routeModule}`);
+     return;
+  }
 
-// Optional: Audit logs if you implemented them
-// router.use('/audit', auditRouter);
+  try {
+    router.use(path, routeModule);
+    console.log(`✅ Mounted ${name} at ${path}`);
+  } catch (error) {
+    console.error(`❌ FAILED to mount ${name}:`, error);
+  }
+};
+
+console.log('--- MOUNTING ROUTES ---');
+
+safeMount('/auth', authRouter, 'authRouter');
+safeMount('/users', usersRouter, 'usersRouter');
+safeMount('/catalog', catalogRouter, 'catalogRouter');
+safeMount('/orders', orderRouter, 'orderRouter');
+safeMount('/inventory', inventoryRouter, 'inventoryRouter');
+safeMount('/credit', creditRouter, 'creditRouter');
+safeMount('/schemes', schemeRouter, 'schemeRouter');
+safeMount('/secondary-sales', secondarySalesRouter, 'secondarySalesRouter');
+safeMount('/visits', visitRouter, 'visitRouter');
+safeMount('/territories', territoryRouter, 'territoryRouter');
+safeMount('/analytics', analyticsRouter, 'analyticsRouter');
+safeMount('/notifications', notificationLogRouter, 'notificationLogRouter');
+safeMount('/audit', auditRouter, 'auditRouter');
+
+console.log('--- ROUTES READY ---');
